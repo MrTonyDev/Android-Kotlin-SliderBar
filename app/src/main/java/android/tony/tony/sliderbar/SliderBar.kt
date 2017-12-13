@@ -77,14 +77,13 @@ class SliderBar : FrameLayout {
                     if (bias < 0) bias = 0f
                     if (bias > 1) bias = 1f
                     if (arrowLeft.existActionDown) {
-
-                        if (bias > originalRightBias - minDuration) bias = originalRightBias - minDuration//prevent 'left' move over 'right'
-
+                        if (bias > originalRightBias - minDuration) bias = originalRightBias - minDuration//prevent 'left' move over 'right' and rely on minDuration too
+                        if (bias < originalRightBias - maxDuration) bias = originalRightBias - maxDuration
                         set.setHorizontalBias(R.id.arrowLeft, bias)
                         set.applyTo(root)
                     }else if (arrowRight.existActionDown) {
                         if (bias < originalLeftBias + minDuration) bias = originalLeftBias + minDuration//prevent 'right' move over 'left'
-
+                        if (bias > originalLeftBias + maxDuration) bias = originalLeftBias + maxDuration
                         set.setHorizontalBias(R.id.arrowRight, bias)
                         set.applyTo(root)
                     }else if (bgMid.existActionDown) {

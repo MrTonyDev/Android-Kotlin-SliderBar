@@ -10,5 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sliderbar.minDuration = 0.1f//from 0f -> 1f
+        sliderbar.maxDuration = 0.5f
     }
 }
