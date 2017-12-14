@@ -99,12 +99,12 @@ class SliderBar : FrameLayout {
                     if (arrowLeft.existActionDown) {
                         if (bias > originalRightBias - minDuration) bias = originalRightBias - minDuration//prevent 'left' move over 'right' and rely on minDuration too
                         if (bias < originalRightBias - maxDuration) bias = originalRightBias - maxDuration
-                        set.setHorizontalBias(R.id.arrowLeft, bias)
+                        moveArrowLeft(bias)
                         set.applyTo(root)
                     }else if (arrowRight.existActionDown) {
                         if (bias < originalLeftBias + minDuration) bias = originalLeftBias + minDuration//prevent 'right' move over 'left'
                         if (bias > originalLeftBias + maxDuration) bias = originalLeftBias + maxDuration
-                        set.setHorizontalBias(R.id.arrowRight, bias)
+                        moveArrowRight(bias)
                         set.applyTo(root)
                     }else if (bgMid.existActionDown) {
                         if (originalLeftBias == 0f && originalRightBias == 1f) {
@@ -117,23 +117,18 @@ class SliderBar : FrameLayout {
                         if (leftBias < 0) {
                             val differenceZero = leftBias
                             leftBias = 0f
-                            set.setHorizontalBias(R.id.arrowLeft, leftBias)
-                            set.setHorizontalBias(R.id.arrowRight, rightBias-differenceZero)
+                            moveBothLeftAndRight(leftBias, rightBias-differenceZero)
                             set.applyTo(root)
                             return true
                         }
                         if (rightBias > 1) {
                             val differenceOne = rightBias - 1f
                             rightBias = 1f
-
-                            set.setHorizontalBias(R.id.arrowLeft, leftBias-differenceOne)
-                            set.setHorizontalBias(R.id.arrowRight, rightBias)
+                            moveBothLeftAndRight(leftBias-differenceOne, rightBias)
                             set.applyTo(root)
                             return true
                         }
-
-                        set.setHorizontalBias(R.id.arrowLeft, leftBias)
-                        set.setHorizontalBias(R.id.arrowRight, rightBias)
+                        moveBothLeftAndRight(leftBias, rightBias)
                         set.applyTo(root)
                     }
                 }
@@ -155,6 +150,28 @@ class SliderBar : FrameLayout {
             }
         }
         return true
+    }
+
+    private fun moveArrowLeft(bias : Float) {
+        set.setHorizontalBias(R.id.tvTopLeft, bias)
+        set.setHorizontalBias(R.id.tvBottomLeft, bias)
+        set.setHorizontalBias(R.id.arrowLeft, bias)
+        tvTopLeft.text = "".plus(bias)
+        tvBottomLeft.text = "".plus(bias)
+    }
+
+    private fun moveArrowRight(bias : Float){
+        set.setHorizontalBias(R.id.tvTopRight, bias)
+        set.setHorizontalBias(R.id.tvBottomRight, bias)
+        set.setHorizontalBias(R.id.arrowRight, bias)
+
+        tvTopRight.text = "".plus(bias)
+        tvBottomRight.text = "".plus(bias)
+    }
+
+    private fun moveBothLeftAndRight(leftBias: Float, rightBias: Float){
+        moveArrowLeft(leftBias)
+        moveArrowRight(rightBias)
     }
 
 }
