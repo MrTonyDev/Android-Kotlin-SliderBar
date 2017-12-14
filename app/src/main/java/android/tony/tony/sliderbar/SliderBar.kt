@@ -11,6 +11,7 @@ import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.sliderbar.view.*
 
+
 class SliderBar : FrameLayout {
     var minDuration = 0f
     var maxDuration = 0f
@@ -41,11 +42,19 @@ class SliderBar : FrameLayout {
         set.clone(root)
     }
 
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        getLocationOnScreen(locations)
+        arrowLeft.pivotY = (arrowLeft.height/2).toFloat()
+        arrowRight.pivotY = (arrowRight.height/2).toFloat()
+    }
+
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         when(ev?.action) {
             MotionEvent.ACTION_DOWN -> {
                 arrowLeft.resetMotionAction()
                 arrowRight.resetMotionAction()
+                bgMid.resetMotionAction()
                 return false
             }
             MotionEvent.ACTION_MOVE -> return true
@@ -62,9 +71,20 @@ class SliderBar : FrameLayout {
         val currentX = event?.rawX
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> {
+                if (arrowLeft.existActionDown) {
+                    arrowLeft.animate().scaleY(3f).setDuration(200).withEndAction {
+                        set.setScaleY(R.id.arrowLeft, 3f)
+                        set.applyTo(root)
+                        set.clone(root) }.start()
+                }else if (arrowRight.existActionDown) {
+                    arrowRight.animate().scaleY(3f).setDuration(200).withEndAction {
+                        set.setScaleY(R.id.arrowRight, 3f)
+                        set.applyTo(root)
+                        set.clone(root)
+                    }.start()
+                }
                 isMoving = false
                 startX = event.rawX
-                getLocationOnScreen(locations)
                 originalLeftBias = (arrowLeft.layoutParams as ConstraintLayout.LayoutParams).horizontalBias
                 originalRightBias = (arrowRight.layoutParams as ConstraintLayout.LayoutParams).horizontalBias
             }
@@ -120,6 +140,18 @@ class SliderBar : FrameLayout {
             }
             MotionEvent.ACTION_UP -> {
                 isMoving = false
+                if (arrowLeft.existActionDown) {
+                    arrowLeft.animate().scaleY(1f).setDuration(200).withEndAction {
+                        set.setScaleY(R.id.arrowLeft, 1f)
+                        set.applyTo(root)
+                        set.clone(root) }.start()
+                }else if (arrowRight.existActionDown) {
+                    arrowRight.animate().scaleY(1f).setDuration(200).withEndAction {
+                        set.setScaleY(R.id.arrowRight, 1f)
+                        set.applyTo(root)
+                        set.clone(root)
+                    }.start()
+                }
             }
         }
         return true
