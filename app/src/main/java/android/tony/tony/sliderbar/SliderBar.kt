@@ -19,6 +19,7 @@ class SliderBar : FrameLayout {
     var formatText = "%.2f"
     var minDuration = 0f
     var maxDuration = 0f
+    var listener: SliderBarListener? = null
     constructor(context: Context) : super(context) {
         init()
     }
@@ -36,13 +37,13 @@ class SliderBar : FrameLayout {
         init()
     }
 
-    public fun setPosition(start: Float, end: Float) {
-        moveArrowLeft(start)
-        moveArrowRight(end)
+    fun setPosition(left: Float, right: Float) {
+        moveArrowLeft(left)
+        moveArrowRight(right)
         set.applyTo(root)
     }
 
-    fun init() {
+    private fun init() {
         inflate(context, R.layout.sliderbar, this)
         vc = ViewConfiguration.get(context)
         set = ConstraintSet()
@@ -108,11 +109,13 @@ class SliderBar : FrameLayout {
                         if (bias < originalRightBias - maxDuration) bias = originalRightBias - maxDuration
                         moveArrowLeft(bias)
                         set.applyTo(root)
+                        listener?.onLeftChanged(bias)
                     }else if (arrowRight.existActionDown) {
                         if (bias < originalLeftBias + minDuration) bias = originalLeftBias + minDuration//prevent 'right' move over 'left'
                         if (bias > originalLeftBias + maxDuration) bias = originalLeftBias + maxDuration
                         moveArrowRight(bias)
                         set.applyTo(root)
+                        listener?.onRightChanged(bias)
                     }else if (bgMid.existActionDown) {
                         if (originalLeftBias == 0f && originalRightBias == 1f) {
                             return true
@@ -126,6 +129,7 @@ class SliderBar : FrameLayout {
                             leftBias = 0f
                             moveBothLeftAndRight(leftBias, rightBias-differenceZero)
                             set.applyTo(root)
+                            listener?.onBothLeftAndRightChanged(leftBias, rightBias-differenceZero)
                             return true
                         }
                         if (rightBias > 1) {
@@ -133,10 +137,12 @@ class SliderBar : FrameLayout {
                             rightBias = 1f
                             moveBothLeftAndRight(leftBias-differenceOne, rightBias)
                             set.applyTo(root)
+                            listener?.onBothLeftAndRightChanged(leftBias-differenceOne, rightBias)
                             return true
                         }
                         moveBothLeftAndRight(leftBias, rightBias)
                         set.applyTo(root)
+                        listener?.onBothLeftAndRightChanged(leftBias, rightBias)
                     }
                 }
             }
