@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.sliderbar.view.*
 
 
 class SliderBar : FrameLayout {
+    private var vc: ViewConfiguration? = null
+    private lateinit var set : ConstraintSet
+
     var minDuration = 0f
     var maxDuration = 0f
     constructor(context: Context) : super(context) {
@@ -32,8 +35,11 @@ class SliderBar : FrameLayout {
         init()
     }
 
-    private var vc: ViewConfiguration? = null
-    private lateinit var set : ConstraintSet
+    public fun setPosition(start: Float, end: Float) {
+        moveArrowLeft(start)
+        moveArrowRight(end)
+        set.applyTo(root)
+    }
 
     fun init() {
         inflate(context, R.layout.sliderbar, this)
@@ -63,10 +69,10 @@ class SliderBar : FrameLayout {
     }
 
     private var startX : Float = 0f
-    val locations = IntArray(2)
-    var originalLeftBias : Float = 0f
-    var originalRightBias : Float = 0f
-    var isMoving : Boolean = false
+    private val locations = IntArray(2)
+    private var originalLeftBias : Float = 0f
+    private var originalRightBias : Float = 0f
+    private var isMoving : Boolean = false
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val currentX = event?.rawX
         when(event?.action) {
