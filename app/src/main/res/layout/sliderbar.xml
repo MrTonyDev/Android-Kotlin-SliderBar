@@ -24,7 +24,7 @@
         android:src="@drawable/whiteline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
@@ -35,8 +35,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tvBottomLeft"
         app:layout_constraintEnd_toStartOf="@+id/arrowRight"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/arrowLeft"
         app:layout_constraintTop_toBottomOf="@+id/tvTopLeft"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@color/colorAccent" />
 
     <android.tony.tony.sliderbar.TonyImageView
@@ -46,7 +48,7 @@
         android:src="@drawable/whiteline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.65"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -109,5 +111,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <android.tony.tony.sliderbar.TonyImageView
+        android:id="@+id/currentLine"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvBottomLeft"
+        app:layout_constraintEnd_toEndOf="@+id/bgRight"
+        app:layout_constraintStart_toStartOf="@+id/bgLeft"
+        app:layout_constraintTop_toBottomOf="@+id/tvTopLeft"
+        app:srcCompat="@android:color/darker_gray" />
 
 </android.support.constraint.ConstraintLayout>

@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        sliderbar.scaleUp = 2f
         sliderbar.minDuration = 0.1f//from 0f -> 1f
         sliderbar.maxDuration = 0.8f
         sliderbar.formatText = "%.3f"
@@ -27,5 +28,9 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
 
     override fun onBothLeftAndRightChanged(left: Float, right: Float) {
         Log.d("HoangNM", "onBothLeftAndRightChanged: " + left + " --- " + right)
+    }
+
+    override fun onCurrentLineChanged(value: Float) {
+        Log.d("HoangNM", "onCurrentLineChanged: " + value)
     }
 }

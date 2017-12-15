@@ -11,14 +11,13 @@ import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.sliderbar.view.*
 
-
 class SliderBar : FrameLayout {
     private var vc: ViewConfiguration? = null
     private lateinit var set : ConstraintSet
-
     var formatText = "%.2f"
     var minDuration = 0f
     var maxDuration = 0f
+    var scaleUp = 2f
     var listener: SliderBarListener? = null
     constructor(context: Context) : super(context) {
         init()
@@ -63,6 +62,7 @@ class SliderBar : FrameLayout {
                 arrowLeft.resetMotionAction()
                 arrowRight.resetMotionAction()
                 bgMid.resetMotionAction()
+                currentLine.resetMotionAction()
                 return false
             }
             MotionEvent.ACTION_MOVE -> return true
@@ -80,13 +80,13 @@ class SliderBar : FrameLayout {
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 if (arrowLeft.existActionDown) {
-                    arrowLeft.animate().scaleY(3f).setDuration(200).withEndAction {
-                        set.setScaleY(R.id.arrowLeft, 3f)
+                    arrowLeft.animate().scaleY(scaleUp).setDuration(200).withEndAction {
+                        set.setScaleY(R.id.arrowLeft, scaleUp)
                         set.applyTo(root)
                         set.clone(root) }.start()
                 }else if (arrowRight.existActionDown) {
-                    arrowRight.animate().scaleY(3f).setDuration(200).withEndAction {
-                        set.setScaleY(R.id.arrowRight, 3f)
+                    arrowRight.animate().scaleY(scaleUp).setDuration(200).withEndAction {
+                        set.setScaleY(R.id.arrowRight, scaleUp)
                         set.applyTo(root)
                         set.clone(root)
                     }.start()
@@ -104,19 +104,25 @@ class SliderBar : FrameLayout {
                     var bias = (currentX-startViewPos) / width
                     if (bias < 0) bias = 0f
                     if (bias > 1) bias = 1f
-                    if (arrowLeft.existActionDown) {
+                    if (currentLine.existActionDown) {//current line
+                        if (bias > originalRightBias) bias = originalRightBias//
+                        if (bias < originalLeftBias) bias = originalLeftBias//limit in left and right arrow
+                        set.setHorizontalBias(R.id.currentLine, bias)
+                        set.applyTo(root)
+                        listener?.onCurrentLineChanged(bias)
+                    }else if (arrowLeft.existActionDown) {//left
                         if (bias > originalRightBias - minDuration) bias = originalRightBias - minDuration//prevent 'left' move over 'right' and rely on minDuration too
                         if (bias < originalRightBias - maxDuration) bias = originalRightBias - maxDuration
                         moveArrowLeft(bias)
                         set.applyTo(root)
                         listener?.onLeftChanged(bias)
-                    }else if (arrowRight.existActionDown) {
+                    }else if (arrowRight.existActionDown) {//right
                         if (bias < originalLeftBias + minDuration) bias = originalLeftBias + minDuration//prevent 'right' move over 'left'
                         if (bias > originalLeftBias + maxDuration) bias = originalLeftBias + maxDuration
                         moveArrowRight(bias)
                         set.applyTo(root)
                         listener?.onRightChanged(bias)
-                    }else if (bgMid.existActionDown) {
+                    }else if (bgMid.existActionDown) {//both left and right
                         if (originalLeftBias == 0f && originalRightBias == 1f) {
                             return true
                         }
