@@ -17,17 +17,17 @@
 
     <android.tony.tony.sliderbar.TonyImageView
         android:id="@+id/arrowLeft"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
+        android:layout_width="6dp"
+        android:layout_height="32dp"
         android:adjustViewBounds="false"
         android:scaleType="fitXY"
+        android:src="@drawable/whiteline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/ic_arrow_left" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <android.tony.tony.sliderbar.TonyImageView
         android:id="@+id/bgMid"
@@ -41,14 +41,14 @@
 
     <android.tony.tony.sliderbar.TonyImageView
         android:id="@+id/arrowRight"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
+        android:layout_width="6dp"
+        android:layout_height="32dp"
+        android:src="@drawable/whiteline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_right" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.tony.tony.sliderbar.TonyImageView
         android:id="@+id/bgRight"

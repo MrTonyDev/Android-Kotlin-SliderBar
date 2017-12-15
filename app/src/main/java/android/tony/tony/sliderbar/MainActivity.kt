@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         sliderbar.minDuration = 0.1f//from 0f -> 1f
         sliderbar.maxDuration = 0.8f
-
+        sliderbar.formatText = "%.3f"
         sliderbar.setPosition(0.2f, 0.6f)
     }
 }

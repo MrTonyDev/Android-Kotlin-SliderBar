@@ -16,6 +16,7 @@ class SliderBar : FrameLayout {
     private var vc: ViewConfiguration? = null
     private lateinit var set : ConstraintSet
 
+    var formatText = "%.2f"
     var minDuration = 0f
     var maxDuration = 0f
     constructor(context: Context) : super(context) {
@@ -162,8 +163,8 @@ class SliderBar : FrameLayout {
         set.setHorizontalBias(R.id.tvTopLeft, bias)
         set.setHorizontalBias(R.id.tvBottomLeft, bias)
         set.setHorizontalBias(R.id.arrowLeft, bias)
-        tvTopLeft.text = "".plus(bias)
-        tvBottomLeft.text = "".plus(bias)
+        tvTopLeft.text = String.format(formatText, bias)
+        tvBottomLeft.text = String.format(formatText, bias)
     }
 
     private fun moveArrowRight(bias : Float){
@@ -171,8 +172,8 @@ class SliderBar : FrameLayout {
         set.setHorizontalBias(R.id.tvBottomRight, bias)
         set.setHorizontalBias(R.id.arrowRight, bias)
 
-        tvTopRight.text = "".plus(bias)
-        tvBottomRight.text = "".plus(bias)
+        tvTopRight.text = String.format(formatText, bias)
+        tvBottomRight.text = String.format(formatText, bias)
     }
 
     private fun moveBothLeftAndRight(leftBias: Float, rightBias: Float){
