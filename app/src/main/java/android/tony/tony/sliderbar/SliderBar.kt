@@ -36,9 +36,11 @@ class SliderBar : FrameLayout {
         init()
     }
 
-    fun setPosition(left: Float, right: Float) {
+    fun setPosition(left: Float, right: Float, current: Float) {
         moveArrowLeft(left)
         moveArrowRight(right)
+        //set current line
+        set.setHorizontalBias(R.id.currentLine, current)
         set.applyTo(root)
     }
 
@@ -109,7 +111,7 @@ class SliderBar : FrameLayout {
                         if (bias < originalLeftBias) bias = originalLeftBias//limit in left and right arrow
                         set.setHorizontalBias(R.id.currentLine, bias)
                         set.applyTo(root)
-                        listener?.onCurrentLineChanged(bias)
+                        listener?.onCurrentLineChanged(bias, true)
                     }else if (arrowLeft.existActionDown) {//left
                         if (bias > originalRightBias - minDuration) bias = originalRightBias - minDuration//prevent 'left' move over 'right' and rely on minDuration too
                         if (bias < originalRightBias - maxDuration) bias = originalRightBias - maxDuration

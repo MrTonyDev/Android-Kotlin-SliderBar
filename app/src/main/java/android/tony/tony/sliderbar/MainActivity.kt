@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
         sliderbar.minDuration = 0.1f//from 0f -> 1f
         sliderbar.maxDuration = 0.8f
         sliderbar.formatText = "%.3f"
-        sliderbar.setPosition(0.2f, 0.6f)
+        sliderbar.setPosition(0.2f, 0.6f, 0.4f)
         sliderbar.listener = this
     }
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
         Log.d("HoangNM", "onBothLeftAndRightChanged: " + left + " --- " + right)
     }
 
-    override fun onCurrentLineChanged(value: Float) {
+    override fun onCurrentLineChanged(value: Float, fromUser: Boolean) {
         Log.d("HoangNM", "onCurrentLineChanged: " + value)
     }
 }
