@@ -15,6 +15,7 @@ class SliderBar : FrameLayout {
     private var vc: ViewConfiguration? = null
     private lateinit var set : ConstraintSet
     var formatText = "%.2f"
+    var totalDuration = 1f;//default
     var minDuration = 0f
     var maxDuration = 0f
     var scaleUp = 2f
@@ -111,19 +112,19 @@ class SliderBar : FrameLayout {
                         if (bias < originalLeftBias) bias = originalLeftBias//limit in left and right arrow
                         set.setHorizontalBias(R.id.currentLine, bias)
                         set.applyTo(root)
-                        listener?.onCurrentLineChanged(bias, true)
+                        listener?.onCurrentLineChanged(totalDuration*bias, true)
                     }else if (arrowLeft.existActionDown) {//left
                         if (bias > originalRightBias - minDuration) bias = originalRightBias - minDuration//prevent 'left' move over 'right' and rely on minDuration too
                         if (bias < originalRightBias - maxDuration) bias = originalRightBias - maxDuration
                         moveArrowLeft(bias)
                         set.applyTo(root)
-                        listener?.onLeftChanged(bias)
+                        listener?.onLeftChanged(totalDuration*bias)
                     }else if (arrowRight.existActionDown) {//right
                         if (bias < originalLeftBias + minDuration) bias = originalLeftBias + minDuration//prevent 'right' move over 'left'
                         if (bias > originalLeftBias + maxDuration) bias = originalLeftBias + maxDuration
                         moveArrowRight(bias)
                         set.applyTo(root)
-                        listener?.onRightChanged(bias)
+                        listener?.onRightChanged(totalDuration*bias)
                     }else if (bgMid.existActionDown) {//both left and right
                         if (originalLeftBias == 0f && originalRightBias == 1f) {
                             return true
@@ -137,7 +138,7 @@ class SliderBar : FrameLayout {
                             leftBias = 0f
                             moveBothLeftAndRight(leftBias, rightBias-differenceZero)
                             set.applyTo(root)
-                            listener?.onBothLeftAndRightChanged(leftBias, rightBias-differenceZero)
+                            listener?.onBothLeftAndRightChanged(totalDuration*leftBias, totalDuration*(rightBias-differenceZero))
                             return true
                         }
                         if (rightBias > 1) {
@@ -145,12 +146,12 @@ class SliderBar : FrameLayout {
                             rightBias = 1f
                             moveBothLeftAndRight(leftBias-differenceOne, rightBias)
                             set.applyTo(root)
-                            listener?.onBothLeftAndRightChanged(leftBias-differenceOne, rightBias)
+                            listener?.onBothLeftAndRightChanged(totalDuration*(leftBias-differenceOne), totalDuration*rightBias)
                             return true
                         }
                         moveBothLeftAndRight(leftBias, rightBias)
                         set.applyTo(root)
-                        listener?.onBothLeftAndRightChanged(leftBias, rightBias)
+                        listener?.onBothLeftAndRightChanged(totalDuration*leftBias, totalDuration*rightBias)
                     }
                 }
             }
@@ -177,8 +178,8 @@ class SliderBar : FrameLayout {
         set.setHorizontalBias(R.id.tvTopLeft, bias)
         set.setHorizontalBias(R.id.tvBottomLeft, bias)
         set.setHorizontalBias(R.id.arrowLeft, bias)
-        tvTopLeft.text = String.format(formatText, bias)
-        tvBottomLeft.text = String.format(formatText, bias)
+        tvTopLeft.text = String.format(formatText, totalDuration*bias)
+        tvBottomLeft.text = String.format(formatText, totalDuration*bias)
     }
 
     private fun moveArrowRight(bias : Float){
@@ -186,8 +187,8 @@ class SliderBar : FrameLayout {
         set.setHorizontalBias(R.id.tvBottomRight, bias)
         set.setHorizontalBias(R.id.arrowRight, bias)
 
-        tvTopRight.text = String.format(formatText, bias)
-        tvBottomRight.text = String.format(formatText, bias)
+        tvTopRight.text = String.format(formatText, totalDuration*bias)
+        tvBottomRight.text = String.format(formatText, totalDuration*bias)
     }
 
     private fun moveBothLeftAndRight(leftBias: Float, rightBias: Float){

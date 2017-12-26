@@ -11,9 +11,10 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sliderbar.scaleUp = 2f
+        sliderbar.totalDuration = 300f
         sliderbar.minDuration = 0.1f//from 0f -> 1f
         sliderbar.maxDuration = 0.8f
-        sliderbar.formatText = "%.3f"
+        sliderbar.formatText = "%.0f"
         sliderbar.setPosition(0.2f, 0.6f, 0.4f)
         sliderbar.listener = this
     }
