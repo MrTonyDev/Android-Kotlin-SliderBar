@@ -3,6 +3,7 @@ package android.tony.tony.sliderbar
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), SliderBarListener {
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
         sliderbar.minDuration = 0.1f//from 0f -> 1f
         sliderbar.maxDuration = 0.8f
         sliderbar.formatText = "%.0f"
+        sliderbar.setViewVisibility(View.GONE, R.id.currentLine, R.id.tvTopLeft, R.id.tvTopRight)
         sliderbar.setPosition(0.2f, 0.6f, 0.4f)
         sliderbar.listener = this
     }

@@ -3,6 +3,7 @@ package android.tony.tony.sliderbar
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import android.support.annotation.IdRes
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.util.AttributeSet
@@ -15,7 +16,7 @@ class SliderBar : FrameLayout {
     private var vc: ViewConfiguration? = null
     private lateinit var set : ConstraintSet
     var formatText = "%.2f"
-    var totalDuration = 1f;//default
+    var totalDuration = 1f//default
     var minDuration = 0f
     var maxDuration = 0f
     var scaleUp = 2f
@@ -37,12 +38,21 @@ class SliderBar : FrameLayout {
         init()
     }
 
+    fun setViewVisibility(visibility: Int, @IdRes vararg viewIds: Int) {
+        for (id in viewIds) {
+            set.setVisibility(id, visibility)
+        }
+        set.applyTo(root)
+        set.clone(root)
+    }
+
     fun setPosition(left: Float, right: Float, current: Float) {
         moveArrowLeft(left)
         moveArrowRight(right)
         //set current line
         set.setHorizontalBias(R.id.currentLine, current)
         set.applyTo(root)
+        set.clone(root)
     }
 
     private fun init() {
