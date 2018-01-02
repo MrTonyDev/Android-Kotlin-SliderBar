@@ -3,6 +3,7 @@ package android.tony.tony.sliderbar
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import android.os.Vibrator
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
@@ -14,15 +15,18 @@ import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.sliderbar.view.*
 
+
 class SliderBar : FrameLayout {
     private var vc: ViewConfiguration? = null
     private lateinit var set : ConstraintSet
+    var isVibrated = false
     var formatText = "%.2f"
     var totalDuration = 1f//default
     var minDuration = 0f
     var maxDuration = 0f
     var scaleUp = 2f
     var listener: SliderBarListener? = null
+    private lateinit var vibrator: Vibrator
     constructor(context: Context) : super(context) {
         init()
     }
@@ -86,6 +90,14 @@ class SliderBar : FrameLayout {
         vc = ViewConfiguration.get(context)
         set = ConstraintSet()
         set.clone(root)
+
+        vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    }
+
+    private fun vibrate() {
+        if (isVibrated) {
+            vibrator.vibrate(500)
+        }
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -123,12 +135,14 @@ class SliderBar : FrameLayout {
                         set.setScaleY(R.id.arrowLeft, scaleUp)
                         set.applyTo(root)
                         set.clone(root) }.start()
+                    vibrate()
                 }else if (arrowRight.existActionDown) {
                     arrowRight.animate().scaleY(scaleUp).setDuration(200).withEndAction {
                         set.setScaleY(R.id.arrowRight, scaleUp)
                         set.applyTo(root)
                         set.clone(root)
                     }.start()
+                    vibrate()
                 }
                 isMoving = false
                 startX = event.rawX

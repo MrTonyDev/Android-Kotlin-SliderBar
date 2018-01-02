@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
         sliderbar.setLeftImageRes(R.color.color1)
         sliderbar.setRightImageRes(R.color.color1)
         sliderbar.setMidImageRes(R.drawable.mid_drawable)
+        sliderbar.isVibrated = true
         sliderbar.listener = this
     }
 
