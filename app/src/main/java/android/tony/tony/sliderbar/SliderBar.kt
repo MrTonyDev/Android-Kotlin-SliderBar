@@ -3,6 +3,8 @@ package android.tony.tony.sliderbar
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -53,6 +55,30 @@ class SliderBar : FrameLayout {
         set.setHorizontalBias(R.id.currentLine, current)
         set.applyTo(root)
         set.clone(root)
+    }
+
+    fun setLeftBgColor(@ColorInt color: Int){
+        bgLeft.setBackgroundColor(color)
+    }
+
+    fun setRightBgColor(@ColorInt color: Int){
+        bgRight.setBackgroundColor(color)
+    }
+
+    fun setMidBgColor(@ColorInt color: Int){
+        bgMid.setBackgroundColor(color)
+    }
+
+    fun setLeftImageRes(@DrawableRes resId: Int){
+        bgLeft.setImageResource(resId)
+    }
+
+    fun setRightImageRes(@DrawableRes resId: Int){
+        bgRight.setImageResource(resId)
+    }
+
+    fun setMidImageRes(@DrawableRes resId: Int){
+        bgMid.setImageResource(resId)
     }
 
     private fun init() {

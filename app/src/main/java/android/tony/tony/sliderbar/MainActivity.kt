@@ -16,8 +16,11 @@ class MainActivity : AppCompatActivity(), SliderBarListener {
         sliderbar.minDuration = 0.1f//from 0f -> 1f
         sliderbar.maxDuration = 0.8f
         sliderbar.formatText = "%.0f"
-        sliderbar.setViewVisibility(View.GONE, R.id.currentLine, R.id.tvTopLeft, R.id.tvTopRight)
+        sliderbar.setViewVisibility(View.GONE, R.id.currentLine, R.id.tvTopLeft, R.id.tvTopRight, R.id.tvBottomLeft, R.id.tvBottomRight)
         sliderbar.setPosition(0.2f, 0.6f, 0.4f)
+        sliderbar.setLeftImageRes(R.color.color1)
+        sliderbar.setRightImageRes(R.color.color1)
+        sliderbar.setMidImageRes(R.drawable.mid_drawable)
         sliderbar.listener = this
     }
 
